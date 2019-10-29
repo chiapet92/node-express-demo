@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import models from "./models";
+import models, { sequelize } from './models';
 import routes from "./routes";
 
 const app = express();
@@ -18,10 +18,54 @@ app.use((req, res, next) => {
   next();
 });
 
+// loading routes from other package
 app.use("/session", routes.session);
 app.use("/users", routes.user);
 app.use("/messages", routes.message);
 
-app.listen(process.env.PORT, () =>
-  console.log(`Example app listening on port ${process.env.PORT}!`)
-);
+// To force the database erasure on every sync
+const eraseDatabaseOnSync = true;
+
+// start the listener
+sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
+  if (eraseDatabaseOnSync) {
+    createUsersWithMessages();
+  }
+
+  app.listen(process.env.PORT, () =>
+    console.log(`Example app listening on port ${process.env.PORT}!`),
+  );
+});
+
+const createUsersWithMessages = async () => {
+  await models.User.create(
+    {
+      username: 'rwieruch',
+      messages: [
+        {
+          text: 'Published the Road to learn React',
+        },
+      ],
+    },
+    {
+      include: [models.Message],
+    },
+  );
+
+  await models.User.create(
+    {
+      username: 'ddavids',
+      messages: [
+        {
+          text: 'Happy to release ...',
+        },
+        {
+          text: 'Published a complete ...',
+        },
+      ],
+    },
+    {
+      include: [models.Message],
+    },
+  );
+};
