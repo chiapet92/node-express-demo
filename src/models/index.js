@@ -5,9 +5,13 @@ const sequelize = new Sequelize(
   process.env.DATABASE_USER,
   process.env.DATABASE_PASSWORD,
   {
-    dialect: "postgres"
-  }
-);
+    host: 'localhost',
+    dialect: 'postgres',
+    port: 5432
+  });
+
+// const sequelize = new Sequelize('postgres://postgres:mysecretpassword@nodeexpressdemo_db_1:5432/postgres');
+
 const models = {
   User: sequelize.import("./user"),
   Message: sequelize.import("./message")
