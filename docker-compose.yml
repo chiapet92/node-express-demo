@@ -16,10 +16,12 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: mysecretpassword
-
-  # for testing
-  adminer:
-    image: adminer
-    restart: always
     ports:
-      - 8080:8080
+      - 5432:5432
+
+  # # for testing
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
