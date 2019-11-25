@@ -5,9 +5,9 @@ const sequelize = new Sequelize(
   process.env.DATABASE_USER,
   process.env.DATABASE_PASSWORD,
   {
-    host: 'localhost',
-    dialect: 'postgres',
-    port: 5432
+    host: process.env.DATABASE_ENDPOINT,
+    dialect: process.env.DATABASE,
+    port: process.env.DATABASE_PORT
   });
 
 // const sequelize = new Sequelize('postgres://postgres:mysecretpassword@nodeexpressdemo_db_1:5432/postgres');
