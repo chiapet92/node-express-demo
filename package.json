@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require @babel/register 'src/**/**spec.js'"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,11 @@
     "@babel/core": "^7.6.4",
     "@babel/node": "^7.6.3",
     "@babel/preset-env": "^7.6.3",
-    "nodemon": "^1.19.4"
+    "@babel/register": "^7.7.4",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "nodemon": "^1.19.4",
+    "sinon": "^7.5.0"
   },
   "dependencies": {
     "cors": "^2.8.5",

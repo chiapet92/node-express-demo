@@ -1,7 +1,14 @@
 import "dotenv/config";
 import express from "express";
-import models, { sequelize } from './models';
+import models, { sequelize } from "./models";
 import routes from "./routes";
+import sum from "./sum.js";
+import callMyFunction from "./callMyFunction.js";
+
+console.log(sum(1, 2));
+callMyFunction(function() {
+  console.log("Hello world");
+});
 
 const app = express();
 
@@ -13,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(async (req, res, next) => {
   req.context = {
     models,
-    me: await models.User.findByLogin('rwieruch'),
+    me: await models.User.findByLogin("rwieruch")
   };
   next();
 });
@@ -33,39 +40,39 @@ sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   }
 
   app.listen(process.env.PORT, () =>
-    console.log(`Example app listening on port ${process.env.PORT}!`),
+    console.log(`Example app listening on port ${process.env.PORT}!`)
   );
 });
 
 const createUsersWithMessages = async () => {
   await models.User.create(
     {
-      username: 'rwieruch',
+      username: "rwieruch",
       messages: [
         {
-          text: 'Published the Road to learn React',
-        },
-      ],
+          text: "Published the Road to learn React"
+        }
+      ]
     },
     {
-      include: [models.Message],
-    },
+      include: [models.Message]
+    }
   );
 
   await models.User.create(
     {
-      username: 'ddavids',
+      username: "ddavids",
       messages: [
         {
-          text: 'Happy to release ...',
+          text: "Happy to release ..."
         },
         {
-          text: 'Published a complete ...',
-        },
-      ],
+          text: "Published a complete ..."
+        }
+      ]
     },
     {
-      include: [models.Message],
-    },
+      include: [models.Message]
+    }
   );
 };
